@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light dark;
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  @apply bg-zinc-50 text-zinc-900 antialiased dark:bg-ink dark:text-zinc-50;
+}
+
+/* Slightly chunkier slider thumb so it's easy to grab on a phone. */
+input[type='range']::-webkit-slider-thumb {
+  @apply h-6 w-6 cursor-pointer appearance-none rounded-full bg-ember shadow;
+}
+input[type='range']::-moz-range-thumb {
+  @apply h-6 w-6 cursor-pointer rounded-full border-0 bg-ember shadow;
+}
