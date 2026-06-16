@@ -1,5 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { decodeMeal } from '@/lib/share';
+import { brand } from '@/lib/brand';
 
 // Renders the share card image that link previews unfurl into.
 export async function GET(request: Request) {
@@ -7,9 +8,8 @@ export async function GET(request: Request) {
   const encoded = searchParams.get('m');
   const meal = encoded ? decodeMeal(encoded) : null;
 
-  const mealName = meal?.meal_name ?? 'MoodMeal';
-  const reason =
-    meal?.mood_reason ?? 'Eat for how you feel, not what you crave.';
+  const mealName = meal?.meal_name ?? brand.name;
+  const reason = meal?.mood_reason ?? brand.tagline;
 
   return new ImageResponse(
     (
@@ -29,12 +29,12 @@ export async function GET(request: Request) {
           style={{
             display: 'flex',
             alignItems: 'center',
-            color: '#ff6b4a',
+            color: brand.accentHex,
             fontSize: 30,
             fontWeight: 600,
           }}
         >
-          🍜 MoodMeal
+          {brand.emoji} {brand.name}
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>

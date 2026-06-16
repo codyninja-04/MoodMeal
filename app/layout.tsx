@@ -1,13 +1,13 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
+import { brand } from '@/lib/brand';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
-  title: 'MoodMeal — eat for how you feel',
-  description:
-    'Tell us how you feel, not what you want. MoodMeal recommends meals backed by the science of the mood-food relationship, then finds them near you.',
+  title: `${brand.name} — eat for how you feel`,
+  description: `Tell us how you feel, not what you want. ${brand.name} recommends meals backed by the science of the mood-food relationship, then finds them near you.`,
 };
 
 export const viewport: Viewport = {
@@ -25,6 +25,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
+        {/* White-label accent: override the default brand colour at the root. */}
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `:root{--brand-rgb:${brand.accentRgb}}`,
+          }}
+        />
         {/* Respect the OS theme without a flash of the wrong one. */}
         <script
           dangerouslySetInnerHTML={{

@@ -13,7 +13,9 @@ const config: Config = {
         // Warm, appetite-friendly palette that still reads well at night
         ink: '#0e0e10',
         surface: '#17171b',
-        ember: '#ff6b4a',
+        // Brand accent — driven by --brand-rgb so white-label builds retheme
+        // every ember usage (incl. /10 opacity variants) from one env var.
+        ember: 'rgb(var(--brand-rgb) / <alpha-value>)',
         sage: '#7bc47f',
       },
       fontFamily: {

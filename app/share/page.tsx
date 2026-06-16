@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { ArrowRight } from 'lucide-react';
 import { decodeMeal } from '@/lib/share';
+import { brand } from '@/lib/brand';
 
 interface SharePageProps {
   searchParams: { m?: string };
@@ -11,10 +12,10 @@ interface SharePageProps {
 export function generateMetadata({ searchParams }: SharePageProps): Metadata {
   const meal = searchParams.m ? decodeMeal(searchParams.m) : null;
   if (!meal) {
-    return { title: 'MoodMeal' };
+    return { title: brand.name };
   }
 
-  const title = `${meal.meal_name} — MoodMeal`;
+  const title = `${meal.meal_name} — ${brand.name}`;
   const ogImage = `/api/og?m=${encodeURIComponent(searchParams.m!)}`;
 
   return {
@@ -53,7 +54,7 @@ export default function SharePage({ searchParams }: SharePageProps) {
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center px-6 py-12">
       <span className="mb-6 inline-flex w-fit items-center gap-2 rounded-full bg-ember/10 px-3 py-1 text-xs font-medium text-ember">
-        🍜 Recommended on MoodMeal
+        {brand.emoji} Recommended on {brand.name}
       </span>
 
       <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-surface">
@@ -88,9 +89,7 @@ export default function SharePage({ searchParams }: SharePageProps) {
       >
         Check your own mood <ArrowRight size={18} />
       </Link>
-      <p className="mt-3 text-center text-sm text-zinc-400">
-        Eat for how you feel, not what you crave.
-      </p>
+      <p className="mt-3 text-center text-sm text-zinc-400">{brand.tagline}</p>
     </main>
   );
 }

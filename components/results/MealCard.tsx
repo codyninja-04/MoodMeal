@@ -164,6 +164,7 @@ export function MealCard({ meal, sessionId, isAuthed }: MealCardProps) {
             <RecipeView
               mealName={meal.meal_name}
               prepTime={meal.prep_time_minutes}
+              isAuthed={isAuthed}
             />
           )}
         </div>

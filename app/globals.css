@@ -4,6 +4,9 @@
 
 :root {
   color-scheme: light dark;
+  /* Default brand accent (MoodMeal ember). Overridden per white-label build by
+     an injected style in the root layout. */
+  --brand-rgb: 255 107 74;
 }
 
 html {

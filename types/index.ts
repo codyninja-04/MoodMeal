@@ -78,6 +78,14 @@ export interface SavedMeal {
   saved_at: string;
 }
 
+// A recipe kept in the premium recipe box (saved_recipes row, app-facing).
+export interface SavedRecipe {
+  id: string;
+  recipe_name: string;
+  recipe_data: Recipe;
+  saved_at: string;
+}
+
 // A past mood check-in, for the history page.
 export interface MoodSessionRecord {
   id: string;

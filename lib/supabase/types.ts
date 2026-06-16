@@ -75,6 +75,48 @@ export interface Database {
         };
         Relationships: [];
       };
+      profiles: {
+        Row: {
+          id: string;
+          is_premium: boolean;
+          created_at: string;
+        };
+        Insert: {
+          id: string;
+          is_premium?: boolean;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          is_premium?: boolean;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      saved_recipes: {
+        Row: {
+          id: string;
+          user_id: string;
+          recipe_name: string;
+          recipe_data: Json;
+          saved_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          recipe_name: string;
+          recipe_data: Json;
+          saved_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          recipe_name?: string;
+          recipe_data?: Json;
+          saved_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

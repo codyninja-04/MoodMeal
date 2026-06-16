@@ -1,19 +1,40 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Lightbulb } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { Lightbulb, BookmarkPlus, Check } from 'lucide-react';
+import { saveRecipe } from '@/lib/premium-actions';
 import type { Recipe } from '@/types';
 
 interface RecipeViewProps {
   mealName: string;
   prepTime: number;
+  isAuthed: boolean;
 }
+
+type SaveState = 'idle' | 'saving' | 'saved' | 'upsell';
 
 // Clean cooking card, not a blog post. Loads the recipe on mount for the meal
 // the user picked to cook at home.
-export function RecipeView({ mealName, prepTime }: RecipeViewProps) {
+export function RecipeView({ mealName, prepTime, isAuthed }: RecipeViewProps) {
+  const router = useRouter();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [error, setError] = useState(false);
+  const [saveState, setSaveState] = useState<SaveState>('idle');
+
+  const handleSaveRecipe = async () => {
+    if (!recipe) return;
+    if (!isAuthed) {
+      router.push('/login');
+      return;
+    }
+    setSaveState('saving');
+    const res = await saveRecipe(mealName, recipe);
+    if (res.ok) setSaveState('saved');
+    else if (res.reason === 'not-premium') setSaveState('upsell');
+    else setSaveState('idle');
+  };
 
   useEffect(() => {
     let active = true;
@@ -92,6 +113,33 @@ export function RecipeView({ mealName, prepTime }: RecipeViewProps) {
           <Lightbulb size={18} className="shrink-0 text-sage" />
           <span>{recipe.tip}</span>
         </div>
+      )}
+
+      {saveState === 'upsell' ? (
+        <Link
+          href="/premium"
+          className="flex w-full items-center justify-center gap-2 rounded-2xl border border-ember/40 py-3 text-sm font-semibold text-ember"
+        >
+          <BookmarkPlus size={16} /> Recipe box is a Premium feature
+        </Link>
+      ) : (
+        <button
+          type="button"
+          onClick={handleSaveRecipe}
+          disabled={saveState === 'saving' || saveState === 'saved'}
+          className="flex w-full items-center justify-center gap-2 rounded-2xl border border-zinc-200 py-3 text-sm font-semibold text-zinc-600 transition-colors hover:border-zinc-300 hover:text-zinc-900 disabled:opacity-70 dark:border-zinc-800 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:text-zinc-50"
+        >
+          {saveState === 'saved' ? (
+            <>
+              <Check size={16} className="text-sage" /> Saved to recipe box
+            </>
+          ) : (
+            <>
+              <BookmarkPlus size={16} />{' '}
+              {saveState === 'saving' ? 'Saving…' : 'Save recipe'}
+            </>
+          )}
+        </button>
       )}
     </div>
   );

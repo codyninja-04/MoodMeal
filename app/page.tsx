@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { brand } from '@/lib/brand';
 
 export default function LandingPage() {
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-between px-6 py-12">
       <div className="flex flex-1 flex-col justify-center">
         <span className="mb-6 inline-flex w-fit items-center gap-2 rounded-full bg-ember/10 px-3 py-1 text-xs font-medium text-ember">
-          🍜 MoodMeal
+          {brand.emoji} {brand.name}
         </span>
 
         <h1 className="text-4xl font-semibold leading-tight tracking-tight">

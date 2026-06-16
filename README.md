@@ -74,4 +74,9 @@ supabase/       SQL migration
   trend view, "show me three more" on the same mood, and shareable meal cards
   (Web Share / copy link, with an OG image at `/api/og`). Magic-link auth with
   anonymous check-ins migrated to the account on sign-in.
-- **Phase 3:** delivery affiliate links, white-label, premium history + trends.
+- **Phase 3 (done):** affiliate delivery links (GrabFood/Deliveroo) on
+  restaurant cards; a white-label build (name, tagline, emoji, and accent
+  colour driven by env, so every `ember` usage rethemes from one variable); and
+  a Premium tier — unlimited history (free tier capped), a saved-recipe box, and
+  a weekly mood report. Billing is stubbed Stripe-ready (`activatePremium`
+  flips the flag directly; production would swap in Checkout + a webhook).
