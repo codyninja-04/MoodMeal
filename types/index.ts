@@ -62,3 +62,28 @@ export interface RecommendResult {
   sessionId: string | null;
   recommendations: MealRecommendation[];
 }
+
+// What we stash in sessionStorage between /mood and /results. Carries the raw
+// mood inputs too so the results page can run a "try again" without making the
+// user re-answer the questions.
+export interface StoredResult extends RecommendResult {
+  mood: MoodInput;
+}
+
+// A meal a logged-in user bookmarked (saved_meals row, app-facing shape).
+export interface SavedMeal {
+  id: string;
+  meal_name: string;
+  meal_data: MealRecommendation;
+  saved_at: string;
+}
+
+// A past mood check-in, for the history page.
+export interface MoodSessionRecord {
+  id: string;
+  energy_level: number;
+  stress_level: number;
+  craving_type: CravingType;
+  recommendations: { recommendations: MealRecommendation[] } | null;
+  created_at: string;
+}

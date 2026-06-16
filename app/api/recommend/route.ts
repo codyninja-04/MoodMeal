@@ -19,7 +19,7 @@ const VALID_CRAVINGS: CravingType[] = [
 
 export async function POST(req: Request) {
   try {
-    const { energy, stress, craving } = await req.json();
+    const { energy, stress, craving, exclude } = await req.json();
 
     // Validate the inputs match the DB constraints before doing any work.
     const energyNum = Number(energy);
@@ -36,10 +36,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Invalid mood input' }, { status: 400 });
     }
 
+    const excludeList = Array.isArray(exclude)
+      ? exclude.filter((m: unknown): m is string => typeof m === 'string')
+      : [];
+
     const moodContext = mapMoodToNutrition(energyNum, stressNum, craving);
     const { recommendations } = await getMealRecommendations(
       moodContext,
-      craving
+      craving,
+      excludeList
     );
 
     // Persist the session when Supabase is configured. The token cookie ties

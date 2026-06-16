@@ -16,8 +16,15 @@ function parseJson<T>(raw: string): T {
 
 export async function getMealRecommendations(
   moodContext: MoodContext,
-  craving: string
+  craving: string,
+  exclude: string[] = []
 ): Promise<RecommendationResponse> {
+  // "Try again" passes the meals already shown so a retry stays on the same
+  // mood but returns genuinely different ideas.
+  const excludeLine = exclude.length
+    ? `\n\nThe person has already seen these meals and wants different ideas, so do NOT repeat them: ${exclude.join(', ')}.`
+    : '';
+
   const response = await client.messages.create({
     model: 'claude-sonnet-4-6',
     max_tokens: 1024,
@@ -31,7 +38,7 @@ Current state:
 - Stress: ${moodContext.stressLabel}
 - Craving: ${craving} food
 - Nutritional needs: ${moodContext.nutritionalNeeds.join(', ')}
-- Avoid: ${moodContext.avoidances.join(', ') || 'nothing in particular'}
+- Avoid: ${moodContext.avoidances.join(', ') || 'nothing in particular'}${excludeLine}
 
 Recommend exactly 3 meals that would genuinely help this person feel better.
 Base recommendations on real nutritional science, not just what sounds nice.

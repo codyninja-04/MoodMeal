@@ -7,7 +7,7 @@ import { useMoodFlow } from '@/hooks/useMoodFlow';
 import { EnergyQuestion } from './EnergyQuestion';
 import { StressQuestion } from './StressQuestion';
 import { CravingQuestion } from './CravingQuestion';
-import type { CravingType, RecommendResult } from '@/types';
+import type { CravingType, RecommendResult, StoredResult } from '@/types';
 
 // Where we stash the recommendation between /mood and /results so the results
 // page paints instantly instead of refetching on navigation.
@@ -38,7 +38,11 @@ export function MoodFlow() {
       if (!res.ok) throw new Error('recommend failed');
 
       const data: RecommendResult = await res.json();
-      sessionStorage.setItem(RESULT_STORAGE_KEY, JSON.stringify(data));
+      const stored: StoredResult = {
+        ...data,
+        mood: { energy: flow.state.energy!, stress: flow.state.stress!, craving },
+      };
+      sessionStorage.setItem(RESULT_STORAGE_KEY, JSON.stringify(stored));
       router.push('/results');
     } catch {
       setError('Something went wrong getting your recommendations. Try again?');

@@ -70,5 +70,8 @@ supabase/       SQL migration
 
 - **Phase 1 (done):** mood check-in, Claude recommendations, geolocation,
   Places search, recipe generation, anonymous sessions.
-- **Phase 2:** saved meals, mood history, "try again", shareable cards.
+- **Phase 2 (done):** saved meals for signed-in users, mood history page with a
+  trend view, "show me three more" on the same mood, and shareable meal cards
+  (Web Share / copy link, with an OG image at `/api/og`). Magic-link auth with
+  anonymous check-ins migrated to the account on sign-in.
 - **Phase 3:** delivery affiliate links, white-label, premium history + trends.
